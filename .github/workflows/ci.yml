@@ -61,7 +61,8 @@ jobs:
       - name: Generate coverage report
         run: |
           mkdir -p build/coverage
-          gcovr -r . --html --html-details --html-theme=github.blue -o build/coverage/coverage.html
+          cd build
+          gcovr -r .. --html --html-details --html-theme=github.blue -o coverage/coverage.html
 
       - name: Upload coverage report as artifact
         uses: actions/upload-artifact@v4
