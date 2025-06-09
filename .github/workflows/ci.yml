@@ -37,9 +37,10 @@ jobs:
         run: |
           sed -i "s|require \\\"\\\#{ENV\\['CMOCK_DIR'\\]\\}/lib/cmock\\\"|require_relative '../lib/cmock'|" test/CMock/scripts/create_mock.rb
 
-          
+
       - name: Generate all needed mocks
         run: |
+          export CMOCK_DIR=$PWD/test/CMock
           for header in include/*.h; do
             if grep -q "MOCK_ME" "$header"; then
               ruby test/CMock/scripts/create_mock.rb "$header"
