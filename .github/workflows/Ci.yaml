@@ -1,0 +1,56 @@
+name: CI Meson C Tests & Coverage
+
+on:
+  push:
+    branches: [ testing ]
+  pull_request:
+    branches: [ testing ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y ninja-build gcc python3-pip gcovr lcov
+          pip3 install --user meson gcovr
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Clone Unity
+        run: |
+          git clone --recursive https://github.com/ThrowTheSwitch/Unity.git test/unity
+
+      - name: Clone CMock
+        run: |
+          git clone --recursive https://github.com/ThrowTheSwitch/CMock.git test/CMock
+
+      - name: Patch CMock script
+        run: |
+            sed -i "s|require \\\"\\\#{ENV\\['CMOCK_DIR'\\]\\}/lib/cmock\\\"|require_relative '../lib/cmock'|" test/CMock/scripts/create_mock.rb
+
+            
+      - name: Configure Meson
+        run: |
+          meson setup build --wipe --buildtype=debug
+
+      - name: Build
+        run: ninja -C build
+
+      - name: Run tests
+        run: meson test -C build
+
+      - name: Generate coverage report
+        run: |
+          mkdir -p build/coverage
+          gcovr -r . --html --html-details --html-theme=github.blue -o build/coverage/coverage.html
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: build/coverage/
