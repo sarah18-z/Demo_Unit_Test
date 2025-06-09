@@ -23,7 +23,7 @@ jobs:
 
       - name: Clone Unity
         run: |
-          git clone --recursive https://github.com/ThrowTheSwitch/Unity.git test/unity
+          git clone --recursive https://github.com/ThrowTheSwitch/Unity.git test/Unity
 
       - name: Clone CMock
         run: |
