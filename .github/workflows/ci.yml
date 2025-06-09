@@ -41,6 +41,7 @@ jobs:
       - name: Generate all needed mocks
         run: |
           export CMOCK_DIR=$PWD/test/CMock
+          export MOCK_OUT=$PWD/test/mocks
           for header in include/*.h; do
             if grep -q "MOCK_ME" "$header"; then
               ruby test/CMock/scripts/create_mock.rb "$header"
