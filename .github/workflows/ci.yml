@@ -35,7 +35,15 @@ jobs:
 
       - name: Create mocks directory
         run: mkdir -p test/mocks
-        
+
+      - name: Generate all needed mocks
+        run: |
+          for header in include/*.h; do
+            if grep -q "MOCK_ME" "$header"; then
+              ruby test/CMock/scripts/create_mock.rb "$header"
+            fi
+          done
+
       - name: Configure Meson
         run: |
           meson setup build --wipe --buildtype=debug
