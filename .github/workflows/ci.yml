@@ -50,19 +50,24 @@ jobs:
 
       - name: Configure Meson
         run: |
-          meson setup build --buildtype=debug
+            meson setup build --wipe --buildtype=debug -Db_coverage=true
 
       - name: Build
-        run: ninja -C build
+        run: |
+          export PATH=$HOME/.local/bin:$PATH
+          ninja -C build
 
       - name: Run tests
-        run: meson test -C build
+        run: |
+          export PATH=$HOME/.local/bin:$PATH
+          meson test -C build
 
       - name: Generate coverage report
         run: |
+          export PATH=$HOME/.local/bin:$PATH
           mkdir -p build/coverage
-          cd build
-          gcovr -r .. --html --html-details --html-theme=github.blue -o coverage/coverage.html
+          cd build/coverage
+          gcovr -r ../.. --html --html-details --html-theme=github.blue -o coverage.html
 
       - name: Upload coverage report as artifact
         uses: actions/upload-artifact@v4
