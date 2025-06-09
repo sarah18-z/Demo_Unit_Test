@@ -46,16 +46,17 @@ test_processing_and_send_exe = executable(
 )
 test('processing_and_send', test_processing_and_send_exe)
 
-if get_option('b_coverage')
-  gcovr = find_program('gcovr', required: true)
-  custom_target(
-    'my-coverage-html',
-    output: 'coverage.html',
-    command: [
-      gcovr, '-r', meson.source_root(),
-      '--html', '--html-details', '-o', 'coverage.html'
-    ],
-    depends: [],
-    build_by_default: false # Set to true to enable generation at every build
-  )
-endif
+
+#if get_option('b_coverage')
+#  gcovr = find_program('gcovr', required: true)
+#  custom_target(
+#     'my-coverage-html',
+#     output: 'coverage.html',
+#     command: [
+#       gcovr, '-r', meson.source_root(),
+#       '--html', '--html-details', '-o', 'coverage.html'
+#     ],
+#     depends: [],
+#     build_by_default: false # Set to true to enable generation at every build
+#   )
+# endif
