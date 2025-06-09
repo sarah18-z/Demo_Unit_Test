@@ -29,13 +29,15 @@ jobs:
         run: |
           git clone --recursive https://github.com/ThrowTheSwitch/CMock.git test/CMock
 
-      - name: Patch CMock script
-        run: |
-            sed -i "s|require \\\"\\\#{ENV\\['CMOCK_DIR'\\]\\}/lib/cmock\\\"|require_relative '../lib/cmock'|" test/CMock/scripts/create_mock.rb
-
       - name: Create mocks directory
         run: mkdir -p test/mocks
 
+
+      - name: Patch CMock script
+        run: |
+          sed -i "s|require \\\"\\\#{ENV\\['CMOCK_DIR'\\]\\}/lib/cmock\\\"|require_relative '../lib/cmock'|" test/CMock/scripts/create_mock.rb
+
+          
       - name: Generate all needed mocks
         run: |
           for header in include/*.h; do
