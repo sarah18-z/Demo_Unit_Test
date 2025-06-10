@@ -60,15 +60,10 @@ jobs:
       - name: Run tests and save output
         run: |
           export PATH=$HOME/.local/bin:$PATH
-          meson test -C build --print-errorlogs | tee build/test_output.txt
+          meson test -C build --print-errorlogs | tee build/coverage/test_output.txt
 
-      - name: Upload unit test output as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: unit-test-output
-          path: build/test_output.txt
-
-      - name: Generate coverage an unit test report
+    
+      - name: Generate coverage & unit test report
         run: |
           export PATH=$HOME/.local/bin:$PATH
           mkdir -p build/coverage
@@ -79,4 +74,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: build/
+          path: build/coverage
