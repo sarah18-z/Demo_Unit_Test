@@ -60,14 +60,14 @@ jobs:
       - name: Run tests and save output
         run: |
           export PATH=$HOME/.local/bin:$PATH
-          meson test -C build --print-errorlogs | tee build/coverage/test_output.txt
+          meson test -C build --print-errorlogs | tee build/test_output.txt
 
-    
-      - name: Generate coverage & unit test report
+      - name: Generate coverage an unit test report
         run: |
           export PATH=$HOME/.local/bin:$PATH
           mkdir -p build/coverage
           cd build/coverage
+          mv build/test_output.txt build/coverage
           gcovr -r ../.. --html --html-details --html-theme=github.blue -o coverage.html
 
       - name: Upload coverage report as artifact
