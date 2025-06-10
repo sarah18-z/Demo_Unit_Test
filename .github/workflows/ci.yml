@@ -57,10 +57,16 @@ jobs:
           export PATH=$HOME/.local/bin:$PATH
           ninja -C build
 
-      - name: Run tests
+      - name: Run tests and save output
         run: |
           export PATH=$HOME/.local/bin:$PATH
-          meson test -C build
+          meson test -C build --print-errorlogs | tee build/test_output.txt
+
+      - name: Upload unit test output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-output
+          path: build/test_output.txt
 
       - name: Generate coverage report
         run: |
