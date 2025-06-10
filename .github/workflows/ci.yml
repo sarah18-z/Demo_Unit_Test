@@ -68,7 +68,7 @@ jobs:
           name: unit-test-output
           path: build/test_output.txt
 
-      - name: Generate coverage report
+      - name: Generate coverage an unit test report
         run: |
           export PATH=$HOME/.local/bin:$PATH
           mkdir -p build/coverage
@@ -79,4 +79,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: build/coverage/
+          path: build/
