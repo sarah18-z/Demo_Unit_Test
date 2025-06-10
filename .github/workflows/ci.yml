@@ -66,8 +66,8 @@ jobs:
         run: |
           export PATH=$HOME/.local/bin:$PATH
           mkdir -p build/coverage
-          cd build/coverage
           mv build/test_output.txt build/coverage
+          cd build/coverage
           gcovr -r ../.. --html --html-details --html-theme=github.blue -o coverage.html
 
       - name: Upload coverage report as artifact
